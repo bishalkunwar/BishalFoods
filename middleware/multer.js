@@ -26,4 +26,4 @@ const uploadMulter = multer({
     fileFilter: fileFilter,
 });
 
-module.exports = uploadMulter;s
+module.exports = uploadMulter;

@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="styles.css">
+
+<%- include('index') %>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3 class="text-center alert alert-info">Add About</h3>
+            <form action="/category" method="POST">
+                <div class="row align-items-center g-3 ">
+                    <div class="col-md-auto col-12">
+                        <label class="form-label d-md-none" for="inputfullName">Full Name</label>
+                        <input name="category" type="text" class="form-control" id="inputfullName" placeholder="full Name">
+                    </div>
+
+                    <div class="col-md-auto col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-sm-7 offset-1">
+            <h3 class="text-center alert alert-info">About You</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">categories</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <% for(var i = 0; i < categories.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= i + 1 %>
+                            </td>
+                            <td>
+                                <%= categories[i].category %>
+                            </td>
+                            <!-- 
+                            <td>
+                                <a class="update btn btn-warning btn-sm" data-id='<%= categories[i]._id %>'>Update</a>
+                            </td> -->
+
+                            <td>
+                                <a class="delete btn btn-danger btn-sm" data-id='<%= categories[i]._id %>'>Delete</a>
+                            </td>
+
+
+                        </tr>
+                        <% } %>
+
+                </tbody>
+            </table>
+
+            <script>
+                const deleteButton = document.querySelector('a.delete');
+
+                console.log(deleteButton.dataset.id);
+                deleteButton.addEventListener('click', (event) => {
+                    const api = `/category/${deleteButton.dataset.id}`;
+                    fetch(api, {
+                            method: 'DELETE'
+                        }).then((response) => response.json())
+                        .then((data) => console.log(data))
+                        .catch(err => console.log(err));
+                })
+            </script>
+
+        </div>
+    </div>

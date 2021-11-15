@@ -8,6 +8,15 @@ const path = require('path');
 
 const app = express();
 
+//import routes
+// const categoriesRoute = require("./routes/categoriesRoute");
+//const FoodsRoute = require("./routes/foodRoute");
+
+
+//import models.
+// const Category = require('./models/categories');
+// const Food = require('./models/foods');
+
 // Passport Config
 require('./config/passport')(passport);
 
@@ -28,6 +37,9 @@ app.set('view engine', 'ejs');
 
 //static files.
 app.use(express.static(path.join(__dirname, 'public')));
+
+//multer uploads folder
+app.use("/uploads", express.static("uploads"));
 
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
@@ -59,6 +71,8 @@ app.use(function(req, res, next) {
 // Routess
 app.use('/', require('./routes/index.js'));
 app.use('/user', require('./routes/user.js'));
+app.use("/category", require('./routes/categoriesRoute.js'));
+app.use('/foods', require('./routes/foodRoute.js'));
 
 const PORT = process.env.PORT || 5000;
 

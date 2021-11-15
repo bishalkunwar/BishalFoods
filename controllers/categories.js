@@ -1,10 +1,8 @@
-const express = require("express");
-const Category = require("../../models/categories");
+const Category = require("../models/categories");
 const mongoose = require("mongoose");
-const router = express.Router();
 
 //controller/method to post products at admin dashboard
-router.post("/", async(req, res) => {
+const addCategory = async(req, res) => {
 
     if (!req.body) {
         res.status(400).send({ message: "Field Value can not be emtpy!" });
@@ -17,33 +15,34 @@ router.post("/", async(req, res) => {
 
     try {
         await category.save();
-        res.redirect('/admin/category');
+        res.redirect('/category');
     } catch (err) {
-        res.send(500).json({ error: err });
+        res.sendStatus(500).json({ error: err });
     }
 
-});
+};
 
-//controller to get products by Id specific.
-router.get("/:categoryId", async(req, res) => {
+//controller to get categories by Id specific.
+const getOneCategory = async(req, res) => {
     const id = req.params.categoryId;
     try {
         const category = await Category.findById(id);
+        res.render('category.ejs', { categories: category });
     } catch (err) {
         res.send(500).json({ error: err });
     }
-});
+};
 
-router.get("/", getAllCategories = async(req, res) => {
+const getAllCategories = async(req, res) => {
     try {
-        const categories = await Category.find({});
-        res.render('category.ejs', { category: categories });
+        const category = await Category.find({});
+        res.render('category.ejs', { categories: category });
     } catch (err) {
         res.send(500).json({ error: err });
     }
-});
+};
 
-router.delete("/:categoryId", deleteCategory = async(req, res) => {
+const deleteCategory = async(req, res) => {
     const id = req.params.categoryid;
     try {
         await Category.deleteOne({ _id: id });
@@ -51,10 +50,10 @@ router.delete("/:categoryId", deleteCategory = async(req, res) => {
     } catch (err) {
         res.send(500).json({ error: err });
     }
-});
+};
 
 
-router.put("/:categoryId", updateCategory = async(req, res, next) => {
+const updateCategory = async(req, res, next) => {
 
     if (!req.body) {
         return res
@@ -80,6 +79,12 @@ router.put("/:categoryId", updateCategory = async(req, res, next) => {
             }
         }
     );
-});
+};
 
-module.exports = router;
+module.exports = {
+    getOneCategory,
+    getAllCategories,
+    addCategory,
+    deleteCategory,
+    updateCategory,
+};
