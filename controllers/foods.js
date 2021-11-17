@@ -32,8 +32,6 @@ const addFood = async(req, res) => {
         return;
     }
 
-    console.log(req.body);
-
     const food = new Food({
         foodName: req.body.foodName,
         categoryId: req.body.category,

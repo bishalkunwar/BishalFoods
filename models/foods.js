@@ -6,6 +6,7 @@ const foodSchema = mongoose.Schema({
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: `Category` },
     price: { type: Number, required: true },
     foodImage: { type: String, required: true },
+
 });
 
 module.exports = mongoose.model("Food", foodSchema);
